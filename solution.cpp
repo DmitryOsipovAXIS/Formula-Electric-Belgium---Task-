@@ -48,6 +48,7 @@ int main() {
 
         if (cost > dist[x][y]) continue;
 
+        // First pop of any bottom-row cell is optimal (Dijkstra); stop early.
         if (x == n - 1) break;
 
         for (auto &mv : moves) {
@@ -66,7 +67,7 @@ int main() {
         }
     }
 
-    // найти лучший выход
+    // Best column on the last row (minimum total cost to leave the grid)
     int end_y = -1;
     double best = 1e18;
 
@@ -82,7 +83,7 @@ int main() {
         return 0;
     }
 
-    // восстановление пути
+    // Reconstruct path by following parent pointers back to (0, 0)
     int x = n - 1, y = end_y;
     vector<string> result = grid;
 
@@ -92,7 +93,6 @@ int main() {
         tie(x, y) = make_tuple(px, py);
     }
 
-    // вывод
     for (auto &row : result) {
         cout << row << endl;
     }

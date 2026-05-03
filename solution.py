@@ -1,7 +1,7 @@
 import math
 import heapq
 
-# Движения: (dx, dy, символ, стоимость)
+# Moves: (dx, dy, arrow drawn on the cell we leave, edge cost)
 MOVES = [
     (-1, 0, '^', 1),
     (1, 0, 'v', 1),
@@ -32,7 +32,7 @@ def dijkstra(grid):
         if cost > dist[x][y]:
             continue
 
-        # если достигли нижней строки — можно остановиться
+        # First pop of any bottom-row cell is optimal (Dijkstra); stop early.
         if x == n - 1:
             break
 
@@ -46,7 +46,7 @@ def dijkstra(grid):
                     parent[nx][ny] = (x, y, symbol)
                     heapq.heappush(pq, (new_cost, nx, ny))
 
-    # найти лучшую клетку в нижней строке
+    # Best exit on the last row (also valid if we broke early on that row)
     end_y = min(range(m), key=lambda y: dist[n-1][y])
     if dist[n-1][end_y] == float('inf'):
         return None, None
